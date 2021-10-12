@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdkVersion 31
+    ndkVersion '21.4.7075529'
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.cocos.gameactivitydemo"
+        minSdkVersion 24
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            externalNativeBuild{
+                cmake{
+                    arguments "-DANDROID_STL=c++_shared",
+                            "-DUSE_ASSET_PACKS=false"
+                }
+            }
+        }
+        debug{
+            externalNativeBuild{
+                minifyEnabled = false;
+                proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                        'proguard-rules.pro'
+                cmake {
+                    arguments "-DANDROID_STL=c++_shared",
+                            "-DUSE_ASSET_PACKS=false"
+                }
+            }
+        }
+
+    }
+    externalNativeBuild{
+        cmake{
+            path 'src/main/cpp/CMakeLists.txt'
+        }
+    }
+    buildFeatures {
+        prefab true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation "androidx.games:games-frame-pacing:1.9.0"
+    implementation "androidx.games:games-performance-tuner:1.4.3"
+    implementation "androidx.games:games-activity:1.0.0"
+    implementation "androidx.games:games-controller:1.0.0"
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
